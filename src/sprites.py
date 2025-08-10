@@ -10,6 +10,22 @@ class Wall:
         """Se dibujan las paredes"""
         pygame.draw.rect(screen, WALL_COLOR, self.rect)
 
+class Fire:
+    def __init__(self, x, y):
+        # Centrar el fuego en el tile
+        self.x = x * TILE_SIZE + TILE_SIZE // 2
+        self.y = y * TILE_SIZE + TILE_SIZE // 2
+        self.animation_timer = 0
+        
+    def draw(self, screen):
+        """Dibujar el fuego como un pixel rojo que parpadea"""
+        self.animation_timer += 1
+        # Hacer que parpadee cada 30 frames
+        if (self.animation_timer // 30) % 2 == 0:
+            pygame.draw.circle(screen, RED, (self.x, self.y), 3)
+        else:
+            pygame.draw.circle(screen, ORANGE, (self.x, self.y), 3)
+
 class MovingRect:
     def __init__(self, x, y, color):
         self.x = x
@@ -24,7 +40,7 @@ class MovingRect:
         # Posicion anterior para poder retroceder
         self.posicion_anterior = (x, y)
         
-        # agreegar posicion inicial al conjunto
+        # agreagar posicion inicial al conjunto
         self.coordenadas_visitadas.add((x, y))
         
         # Direcciones posibles

@@ -14,14 +14,15 @@ class Game:
         
         # Crear mapa
         self.walls = []
+        self.fires = []  # Lista de fuegos
         self.create_level()
         
         # Posición inicial común para todos los agentes
-        start_x, start_y = 60, 60  # Puedes cambiar estos valores
+        start_x, start_y = 60, 60
         
         # Crear agentes con la misma posición inicial
         self.moving_rects = [
-            MovingRect(start_x, start_y, YELLOW),
+            MovingRect(start_x, start_y, RED),
             MovingRect(start_x, start_y, BLUE), 
             MovingRect(start_x, start_y, GREEN)
         ]
@@ -32,6 +33,8 @@ class Game:
             for col_index, cell in enumerate(row):
                 if cell == 1:
                     self.walls.append(Wall(col_index, row_index))
+                elif cell == 2:  # Nuevo: crear fuegos
+                    self.fires.append(Fire(col_index, row_index))
     
     def update(self):
         """Actualizar agentes"""
@@ -50,6 +53,10 @@ class Game:
         # Dibujar paredes
         for wall in self.walls:
             wall.draw(self.screen)
+        
+        # Dibujar fuegos
+        for fire in self.fires:
+            fire.draw(self.screen)
         
         # Dibujar agentes
         for rect in self.moving_rects:
